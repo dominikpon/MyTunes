@@ -1,15 +1,17 @@
 package dk.easv.cs5.mytunes.be;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Playlist {
     private int id;
     private String name;
-    private String songs;
     private int duration;
+    private List<Song> songList = new ArrayList<Song>();
 
-    public Playlist(int id, String name, int duration) {
+    public Playlist(int id, String name) {
         this.id = id;
         this.name = name;
-        this.duration = duration;
     }
     public Playlist(String title){
         this.name = name;
