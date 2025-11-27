@@ -8,6 +8,16 @@ public class Song {
     private int duration;
     private String filePath;
 
+    //constructor without auto increment ID from DB
+    public Song(String title, String artist, String genre, int duration, String filePath) {
+        this.id = 0; //placeholder for ID from DB
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.duration = duration;
+        this.filePath = filePath;
+    }
+    //constructor with auto increment ID from DB
     public Song(int id, String title, String artist, String genre, int duration, String filePath) {
         this.id = id;
         this.title = title;
@@ -40,6 +50,9 @@ public class Song {
 
     public String getFilePath() {
         return filePath;
+    }
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public String toString() {

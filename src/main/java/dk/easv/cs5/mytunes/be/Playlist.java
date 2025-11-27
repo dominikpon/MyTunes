@@ -9,11 +9,13 @@ public class Playlist {
     private int duration;
     private List<Song> songList = new ArrayList<Song>();
 
-    public Playlist(int id, String name) {
-        this.id = id;
+    public Playlist(String name) {
+        this.id = 0; //placeholder for new playlist
         this.name = name;
     }
-    public Playlist(String title){
+
+    public Playlist(int id, String name) {
+        this.id = id;
         this.name = name;
     }
     public int getId() {
@@ -24,5 +26,13 @@ public class Playlist {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Song> getSongList() {
+        return songList;
+    }
+
+    public void setSongList(List<Song> songList) {
+        this.songList = songList;
     }
 }
