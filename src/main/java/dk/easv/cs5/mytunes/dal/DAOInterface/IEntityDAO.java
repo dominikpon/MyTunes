@@ -1,7 +1,7 @@
 package dk.easv.cs5.mytunes.dal.DAOInterface;
 
-public interface IEntityDAO {
-    public void save();
-    public void edit();
-    public void remove();
+public interface IEntityDAO<T> {
+    public void save(T entity);
+    public void edit(T entity);
+    public void remove(int id);
 }

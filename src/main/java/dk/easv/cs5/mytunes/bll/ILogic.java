@@ -12,9 +12,8 @@ public interface ILogic {
     public void deletePlaylist(Playlist playlist);
     public void editPlaylist(Playlist playlist);
 
-    public void addSongToPlaylist(Song song);
-    public void removeSongFromPlaylist(Song song);
-    public void moveSongInPlaylist(Song song);
-
+    public void addSongToPlaylist(Song song, Playlist playlist);
+    public void removeSongFromPlaylist(Song song,  Playlist playlist);
+    public void moveSongInPlaylist(Song song, Playlist playlist);
 
 }
