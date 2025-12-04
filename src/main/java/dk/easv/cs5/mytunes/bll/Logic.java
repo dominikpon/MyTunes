@@ -7,14 +7,18 @@ import dk.easv.cs5.mytunes.dal.DAO.SongDAO;
 import dk.easv.cs5.mytunes.dal.DAOInterface.IPlaylistDAO;
 import dk.easv.cs5.mytunes.dal.DAOInterface.ISongDAO;
 
+import java.io.IOException;
+
 public class Logic implements ILogic {
-    private final ISongDAO songDAO = new SongDAO();
-    private final IPlaylistDAO playlistDAO = new PlaylistDAO();
+    private ISongDAO songDAO = new SongDAO();
+    private IPlaylistDAO playlistDAO = new PlaylistDAO();
+
+    public Logic() throws IOException {
+    }
 
     @Override
     public void createSong(Song song) {
         songDAO.save(song);
-
 
     }
 

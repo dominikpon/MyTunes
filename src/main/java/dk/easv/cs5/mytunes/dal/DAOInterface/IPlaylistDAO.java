@@ -2,8 +2,11 @@ package dk.easv.cs5.mytunes.dal.DAOInterface;
 
 import dk.easv.cs5.mytunes.be.Playlist;
 
-public interface IPlaylistDAO extends IEntityDAO<Playlist> {
-    void remove(Playlist entity);
+public interface IPlaylistDAO  {
+
+    public void save(Playlist playlist);
+    public void edit(Playlist playlist);
+    public void remove(int playlistId);
 
     public void saveSong(int songId, int playlistId);
 

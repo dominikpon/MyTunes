@@ -4,28 +4,28 @@ import dk.easv.cs5.mytunes.be.Playlist;
 import dk.easv.cs5.mytunes.dal.ConnectionManager;
 import dk.easv.cs5.mytunes.dal.DAOInterface.IPlaylistDAO;
 
+import java.io.IOException;
+
 public class PlaylistDAO implements IPlaylistDAO {
-    private ConnectionManager con =  new ConnectionManager();
+    private ConnectionManager conn =  new ConnectionManager();
+
+    public PlaylistDAO() throws IOException {
+    }
 
 
     @Override
-    public void save(Playlist entity) {
+    public void save(Playlist playlist) {
 
 
     }
 
     @Override
-    public void edit(Playlist entity) {
+    public void edit(Playlist playlist) {
 
     }
 
     @Override
-    public void remove(int id) {
-
-    }
-
-    @Override
-    public void remove(Playlist entity){        // helper
+    public void remove(int playlistId){        // helper
 
     }
 

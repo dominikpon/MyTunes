@@ -45,7 +45,7 @@
                         <Font name="System Bold" size="20.0" />
                     </font>
                 </Label>
-                <Label alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="104.0" text="Time:" textFill="WHITE" GridPane.rowIndex="3">
+                <Label alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="104.0" text="Duration:" textFill="WHITE" GridPane.rowIndex="3">
                     <font>
                         <Font name="System Bold" size="20.0" />
                     </font>
@@ -55,12 +55,12 @@
                         <Font name="System Bold" size="20.0" />
                     </font>
                 </Label>
-                <TextField prefWidth="352.0" GridPane.columnIndex="1" />
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Button mnemonicParsing="false" style="-fx-background-color: gray;" text="Choose" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <TextField fx:id="txtTitle" prefWidth="352.0" GridPane.columnIndex="1" />
+                <TextField fx:id="txtArtist" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <ComboBox fx:id="comboGenre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="txtDuration" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="txtPath" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="280.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Button fx:id="btnChoosePath" mnemonicParsing="false" style="-fx-background-color: gray;" text="Choose" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4">
                     <GridPane.margin>
                         <Insets left="292.0" />
                     </GridPane.margin>
@@ -68,7 +68,7 @@
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" style="-fx-background-color: gray;" text="Button" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <Button fx:id="btnMoreCategories" mnemonicParsing="false" style="-fx-background-color: gray;" text="More..." textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>

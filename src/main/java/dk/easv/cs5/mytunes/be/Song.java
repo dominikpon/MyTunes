@@ -27,6 +27,11 @@ public class Song {
         this.filePath = filePath;
     }
 
+    public Song(String title) {
+        this.title = title;
+
+    }
+
     public int getId() {
         return id;
     }
