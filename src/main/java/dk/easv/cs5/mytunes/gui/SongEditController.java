@@ -1,5 +1,6 @@
 package dk.easv.cs5.mytunes.gui;
 
+import dk.easv.cs5.mytunes.Application;
 import dk.easv.cs5.mytunes.be.Genre;
 import dk.easv.cs5.mytunes.be.Song;
 import dk.easv.cs5.mytunes.bll.ILogic;
@@ -8,6 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -18,6 +22,7 @@ import javafx.stage.Stage;
 
 import javafx.scene.media.Media;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,4 +161,14 @@ public class SongEditController {
 
     }
 
+    public void onMoreGenresButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gui/GenreWindow.fxml"));
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setTitle("New Genre");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

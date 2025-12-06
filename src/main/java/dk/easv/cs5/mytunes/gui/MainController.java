@@ -66,6 +66,7 @@ public class MainController {
             controller.setSongList(songList);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
+            stage.setResizable(false);
             stage.setTitle("New/Edit Song");
             stage.setScene(scene);
             stage.show();
@@ -87,6 +88,7 @@ public class MainController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gui/SongEditWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
+        stage.setResizable(false);
         stage.setTitle("New/Edit Song");
         stage.setScene(scene);
         stage.show();
@@ -109,6 +111,7 @@ public class MainController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gui/PlaylistEditWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
+        stage.setResizable(false);
         stage.setTitle("New/Edit Playlist");
         stage.setScene(scene);
         stage.show();
@@ -118,6 +121,7 @@ public class MainController {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gui/PlaylistEditWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
+        stage.setResizable(false);
         stage.setTitle("New/Edit Song");
         stage.setScene(scene);
         stage.show();
