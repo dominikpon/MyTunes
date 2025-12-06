@@ -5,6 +5,7 @@ import dk.easv.cs5.mytunes.be.Song;
 import dk.easv.cs5.mytunes.bll.ILogic;
 import dk.easv.cs5.mytunes.bll.Logic;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -22,6 +23,11 @@ import java.util.List;
 
 
 public class SongEditController {
+
+    private ObservableList<Song> songList = FXCollections.observableArrayList();
+    public void setSongList(ObservableList<Song> songList){
+        this.songList = songList;
+    }
 
     private ILogic logic = new Logic();
 
@@ -97,6 +103,7 @@ public class SongEditController {
 
             try {
                 logic.createSong(song);
+                songList.add(song);
                 showAlert("Song was saved!");
 
                 txtTitle.clear();
@@ -148,4 +155,5 @@ public class SongEditController {
         }
 
     }
+
 }
