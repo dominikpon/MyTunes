@@ -6,15 +6,28 @@ import dk.easv.cs5.mytunes.be.Playlist;
 import dk.easv.cs5.mytunes.dal.ConnectionManager;
 import dk.easv.cs5.mytunes.dal.DAOInterface.IGenreDAO;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GenreDAO implements IGenreDAO {
+
+    private Connection getConnection() throws SQLException {
+        return ConnectionManager.getConnection();
+    }
     public void save(Genre genre) {
+        String sql = "INSERT INTO Genres (name) VALUES (?)";
+
+        try( Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1, genre.getName());
+
+            stmt.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }
     public List<Genre> getAllGenres() {

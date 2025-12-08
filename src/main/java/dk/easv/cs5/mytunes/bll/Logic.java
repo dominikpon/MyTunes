@@ -10,6 +10,7 @@ import dk.easv.cs5.mytunes.dal.DAO.SongDAO;
 import dk.easv.cs5.mytunes.dal.DAOInterface.IGenreDAO;
 import dk.easv.cs5.mytunes.dal.DAOInterface.IPlaylistDAO;
 import dk.easv.cs5.mytunes.dal.DAOInterface.ISongDAO;
+import javafx.fxml.FXML;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,6 +38,10 @@ public class Logic implements ILogic {
     public void editSong(Song song) {
         songDAO.edit(song);
 
+    }
+    @Override
+    public void createGenre(Genre genre){
+        genreDAO.save(genre);
     }
 
     @Override
@@ -91,5 +96,7 @@ public class Logic implements ILogic {
     public String getFormattedDuration(Song song) {
         return formattingTool.format(song.getDuration());
     }
+
+
 
 }
