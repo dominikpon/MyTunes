@@ -109,7 +109,7 @@ public class Logic implements ILogic {
     public void addSongToPlaylist(Song song, Playlist playlist) {
         int songId = song.getId();
         int playlistId = playlist.getId();
-        playlistDAO.saveSong(playlistId, songId);
+        playlistDAO.addSongToPlaylist(playlistId, songId);
 
     }
 
@@ -117,7 +117,7 @@ public class Logic implements ILogic {
     public void removeSongFromPlaylist(Song song, Playlist playlist) {
         int songId = song.getId();
         int playlistId = playlist.getId();
-        playlistDAO.deleteSong(playlistId, songId);
+        playlistDAO.deleteSongFromPlaylist(playlistId, songId);
 
     }
 
@@ -125,7 +125,7 @@ public class Logic implements ILogic {
     public void moveSongInPlaylist(Song song, Playlist playlist) {
         int songId = song.getId();
         int playlistId = playlist.getId();
-        playlistDAO.moveSong(playlistId, songId);
+        playlistDAO.moveSongInPlaylist(playlistId, songId);
 
     }
 
@@ -136,14 +136,12 @@ public class Logic implements ILogic {
     public List<Song> getAllSongs() {
         return songDAO.getAllSongs();
     }
-    /*public List<Playlist> getAllPlaylists() {
-        return playlistDAO;
-    }*/
+    public List<Playlist> getAllPlaylists() {
+        return playlistDAO.getAllPlaylists();
+    }
 
     public String getFormattedDuration(Song song) {
         return formattingTool.format(song.getDuration());
     }
-
-
 
 }

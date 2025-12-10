@@ -25,4 +25,6 @@ public interface ILogic {
 
     List<Genre> getAllGenres();     //List of genres for populating comboBox and filtering
     List<Song> getAllSongs();
+    List<Playlist> getAllPlaylists();
+
 }

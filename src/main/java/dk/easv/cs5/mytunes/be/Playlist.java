@@ -7,7 +7,7 @@ public class Playlist {
     private int id;
     private String name;
     private int duration;
-    private List<Song> songList = new ArrayList<Song>();
+    private List<Song> songList = new ArrayList<>();
 
     public Playlist(String name) {
         this.id = 0; //placeholder for new playlist
@@ -30,6 +30,11 @@ public class Playlist {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getDuration() {
+        //dynamically will calculate duration when adding/removing song from playlist
+        return songList.stream().mapToInt(Song::getDuration).sum();
     }
 
     public List<Song> getSongList() {

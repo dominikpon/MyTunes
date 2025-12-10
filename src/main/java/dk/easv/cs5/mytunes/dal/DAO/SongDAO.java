@@ -59,7 +59,7 @@ public class SongDAO implements ISongDAO  {
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            {
+
                 while (rs.next())
                 {
                     String title = rs.getString("title");
@@ -70,7 +70,6 @@ public class SongDAO implements ISongDAO  {
                     Song song = new Song(title, artist, genreName, duration);
                     songs.add(song);
                 }
-            }
             }catch (SQLException e)
         {
             e.printStackTrace();

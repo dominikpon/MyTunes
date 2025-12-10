@@ -3,6 +3,7 @@ package dk.easv.cs5.mytunes.dal.DAOInterface;
 import dk.easv.cs5.mytunes.be.Playlist;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface IPlaylistDAO  {
 
@@ -10,11 +11,10 @@ public interface IPlaylistDAO  {
     public void edit(Playlist playlist);
     public void remove(int playlistId);
 
-    public void saveSong(int songId, int playlistId);
-
-    public void deleteSong(int songId, int playlistId);
-
-    public void moveSong(int songId, int playlistId);
+    public void addSongToPlaylist(int songId, int playlistId);
+    public void deleteSongFromPlaylist(int songId, int playlistId);
+    public void moveSongInPlaylist(int songId, int playlistId);
 
 
+    public List<Playlist> getAllPlaylists();
 }

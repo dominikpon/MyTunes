@@ -4,9 +4,9 @@ import dk.easv.cs5.mytunes.be.Playlist;
 import dk.easv.cs5.mytunes.dal.ConnectionManager;
 import dk.easv.cs5.mytunes.dal.DAOInterface.IPlaylistDAO;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ public class PlaylistDAO implements IPlaylistDAO {
 
     private Connection getConnection() throws SQLException {
         return ConnectionManager.getConnection();
-}
+    }
 
-    public PlaylistDAO(){
+    public PlaylistDAO() {
     }
 
 
@@ -33,7 +33,7 @@ public class PlaylistDAO implements IPlaylistDAO {
 
             ps.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -46,25 +46,46 @@ public class PlaylistDAO implements IPlaylistDAO {
     }
 
     @Override
-    public void remove(int playlistId){
+    public void remove(int playlistId) {
 
     }
 
 
-
     @Override
-    public void saveSong(int songId, int playlistId) {
+    public void addSongToPlaylist(int songId, int playlistId) {
 
-    }
-
-    @Override
-    public void deleteSong(int songId, int playlistId) {
 
     }
 
     @Override
-    public void moveSong(int songId, int playlistId) {
+    public void deleteSongFromPlaylist(int songId, int playlistId) {
+
     }
 
+    @Override
+    public void moveSongInPlaylist(int songId, int playlistId) {
+    }
+    @Override
+    public List<Playlist> getAllPlaylists(){
+        List<Playlist> playlists = new ArrayList<>();
+        String sql = "SELECT * FROM Playlists";
 
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String name = rs.getString("name");
+
+                Playlist playlist = new Playlist(name);
+                playlists.add(playlist);
+            }
+        }catch(SQLException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    return playlists;
+                }
 }
+

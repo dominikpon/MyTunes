@@ -24,7 +24,7 @@ public class PlaylistEditController {
 
     private ObservableList<Playlist> playlistList = FXCollections.observableArrayList();
 
-    public void setPlaylist(ObservableList<Playlist> playlistList) {
+    public void setPlaylistList(ObservableList<Playlist> playlistList) {
         this.playlistList = playlistList;
     }
 
