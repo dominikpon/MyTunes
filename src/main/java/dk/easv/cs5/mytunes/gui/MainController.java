@@ -17,10 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -173,7 +170,45 @@ public class MainController {
     }
     @FXML
     private void onDeleteSongAction(ActionEvent actionEvent) {
+        deleteSong();
     }
+    private void deleteSong() {
+        Song selectedSong = songsTable.getSelectionModel().getSelectedItem();
+
+        if (selectedSong == null) {
+            AlertHelper.showError("Please select a song to delete.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Song");
+        alert.setHeaderText("Are you sure you want to delete this song?");
+        alert.setContentText(selectedSong.getTitle());
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    // 1) Delete from database
+                    logic.deleteSong(selectedSong);
+
+                    // 2) Remove from main song list
+                    songList.remove(selectedSong);
+                    songsTable.refresh();
+
+                    // 3) Remove from playlist table (if it's there)
+                    playlistSongList.removeIf(s -> s.getId() == selectedSong.getId());
+                    playlistSongsTable.refresh();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    AlertHelper.showError(
+                            "Could not delete the selected song.\n" + e.getMessage()
+                    );
+                }
+            }
+        });
+    }
+
     @FXML
     private void onUpButtonAction(ActionEvent actionEvent) {
     }
@@ -183,6 +218,7 @@ public class MainController {
     @FXML
     private void onDeleteSongInPlaylistAction(ActionEvent actionEvent) {
     }
+
     @FXML
     private void onNewButtonPlaylistAction(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gui/PlaylistEditWindow.fxml"));
@@ -237,3 +273,4 @@ public class MainController {
     }
 
 }
+
