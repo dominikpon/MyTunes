@@ -2,8 +2,6 @@ package dk.easv.cs5.mytunes.dal.DAO;
 
 import dk.easv.cs5.mytunes.be.Genre;
 import dk.easv.cs5.mytunes.be.Song;
-import dk.easv.cs5.mytunes.bll.ILogic;
-import dk.easv.cs5.mytunes.bll.Logic;
 import dk.easv.cs5.mytunes.dal.ConnectionManager;
 import dk.easv.cs5.mytunes.dal.DAOInterface.ISongDAO;
 
@@ -56,8 +54,24 @@ public class SongDAO implements ISongDAO  {
 
     @Override
     public void remove(int id) {
+        String deleteFromPlaylistSongs = "DELETE FROM PlaylistSongs WHERE songId = ?";
+        String deleteFromSongs = "DELETE FROM Songs WHERE Id = ?";
 
-    }
+        try(Connection conn = getConnection()) {
+
+    //Remove songs from PlaylistSongs
+    try (PreparedStatement ps1 = conn.prepareStatement(deleteFromPlaylistSongs)){
+            ps1.setInt(1, id);
+            ps1.executeUpdate();
+     }
+     try (PreparedStatement ps2 = conn.prepareStatement(deleteFromSongs)){
+            ps2.setInt(1,id);
+            ps2.executeUpdate();
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("Song could not be deleted", e);
+        }
+        }
 
     public List<Song> getAllSongs() {
         List<Song> songs = new ArrayList<>();

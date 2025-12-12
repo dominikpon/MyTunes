@@ -199,6 +199,9 @@ public class MainController {
                     playlistSongList.removeIf(s -> s.getId() == selectedSong.getId());
                     playlistSongsTable.refresh();
 
+                    lastSelectedPlaylist.setSongList(playlistSongList);
+                    playlistsTable.refresh();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     AlertHelper.showError(
