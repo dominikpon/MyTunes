@@ -52,14 +52,15 @@ public class PlaylistDAO implements IPlaylistDAO {
 
     @Override
     public void addSongToPlaylist(int songId, int playlistId) {
-        String sql = "INSERT INTO PlaylistSongs (playlistId, songId) VALUES (?, ?)";
+        String sql = "INSERT INTO PlaylistSongs (songId, playlistId) VALUES (?, ?)"; // ????????
+                                                            //id does not work when order matches with indexes
 
         try{ Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(sql); {
 
 
-                ps.setInt(1, playlistId);
-                ps.setInt(2, songId);
+                ps.setInt(1, playlistId);           //??????????
+                ps.setInt(2, songId);       //??????????
                 ps.executeUpdate();
             }
         } catch (SQLException e) {

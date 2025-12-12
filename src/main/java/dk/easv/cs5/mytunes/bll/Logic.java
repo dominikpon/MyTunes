@@ -108,9 +108,11 @@ public class Logic implements ILogic {
 
     @Override
     public void addSongToPlaylist(Song song, Playlist playlist) {
-        int songId = song.getId();
-        int playlistId = playlist.getId();
-        playlistDAO.addSongToPlaylist(playlistId, songId);
+        if(song == null || playlist == null) {
+            return;
+        }
+        System.out.println("Adding song id=" + song.getId() + " to playlist id=" + playlist.getId());
+        playlistDAO.addSongToPlaylist(playlist.getId(), song.getId());
 
     }
 

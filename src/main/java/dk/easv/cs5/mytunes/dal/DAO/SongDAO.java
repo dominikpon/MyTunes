@@ -1,5 +1,6 @@
 package dk.easv.cs5.mytunes.dal.DAO;
 
+import dk.easv.cs5.mytunes.be.Genre;
 import dk.easv.cs5.mytunes.be.Song;
 import dk.easv.cs5.mytunes.bll.ILogic;
 import dk.easv.cs5.mytunes.bll.Logic;
@@ -34,7 +35,7 @@ public class SongDAO implements ISongDAO  {
 
             ps.executeUpdate();
 
-            try (ResultSet rs = ps.executeQuery()){
+            try (ResultSet rs = ps.getGeneratedKeys()){
                 if (rs.next()) {
                     int generatedId = rs.getInt(1);
                     song.setId(generatedId);
@@ -60,7 +61,7 @@ public class SongDAO implements ISongDAO  {
 
     public List<Song> getAllSongs() {
         List<Song> songs = new ArrayList<>();
-        String sql = "SELECT s.title,s.artist,g.name as genre ,s.duration, s.filePath " +
+        String sql = "SELECT s.id, s.title,s.artist,g.name as genre ,s.duration, s.filePath " +
                 "FROM Songs s " +
                 "LEFT JOIN Genres g ON s.genreId = g.id";
 
@@ -70,12 +71,16 @@ public class SongDAO implements ISongDAO  {
 
                 while (rs.next())
                 {
+                    int id = rs.getInt("id");
                     String title = rs.getString("title");
                     String artist = rs.getString("artist");
                     String genreName = rs.getString("genre");
                     int duration = rs.getInt("duration");
+                    String filePath = rs.getString("filePath");
 
-                    Song song = new Song(title, artist, genreName, duration);
+                    Genre genre = new Genre(genreName);
+
+                    Song song = new Song(id,title, artist, genre, duration,filePath);
                     songs.add(song);
                 }
             }catch (SQLException e)

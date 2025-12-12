@@ -27,13 +27,6 @@ public class Song {
         this.filePath = filePath;
     }
 
-    public Song(String title, String artist, String genreName, int duration) {
-        this.title = title;
-        this.artist = artist;
-        this.genre = new Genre(genreName);
-        this.duration = duration;
-    }
-
 
     public int getId() {
         return id;
