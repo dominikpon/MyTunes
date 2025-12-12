@@ -223,10 +223,17 @@ public class MainController {
         if (lastSelectedSong == null) {
             System.out.println("Select a song first");
         }
-        logic.addSongToPlaylist(lastSelectedSong, lastSelectedPlaylist);
-        playlistSongList.add(lastSelectedSong);
 
-        System.out.println("Added: " + lastSelectedSong.getTitle()+ "to " + lastSelectedPlaylist.getName());
+        boolean alreadyInPlaylist = playlistSongList.stream().anyMatch(s -> s.getId() == lastSelectedSong.getId());
+            if(alreadyInPlaylist){
+                AlertHelper.showError("Song " + lastSelectedSong.getTitle() + " already exists in playlist");
+            return;}
+        logic.addSongToPlaylist(lastSelectedSong, lastSelectedPlaylist);
+        lastSelectedPlaylist.getSongs().add(lastSelectedSong);
+        playlistSongList.add(lastSelectedSong);
+        playlistsTable.refresh();
+
+        System.out.println("Added: " + lastSelectedSong.getTitle()+ " to " + lastSelectedPlaylist.getName()); //If I try to add lastSelectedPlaylist.getName() it just shows ID of playlist
     }
 
 }
