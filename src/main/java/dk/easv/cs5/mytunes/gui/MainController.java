@@ -174,27 +174,27 @@ public class MainController {
     }
     @FXML
     private void onDeleteSongAction(ActionEvent actionEvent) {
-        Song selectedSong = songsTable.getSelectionModel().getSelectedItem();
+        Song lastSelectedSong = songsTable.getSelectionModel().getSelectedItem();
 
 
-        if (selectedSong == null) {
+        if (lastSelectedSong == null) {
             AlertHelper.showError("Please select a song to delete.");
             return;
         }
 
 
-        AlertHelper.showConfirmation(selectedSong.getTitle()).ifPresent(response -> {
+        AlertHelper.showConfirmation(lastSelectedSong.getTitle()).ifPresent(response -> {
             if (response == ButtonType.OK) {
                 try {
                     // 1) Delete from database
-                    logic.deleteSong(selectedSong);
+                    logic.deleteSong(lastSelectedSong);
 
                     // 2) Remove from main song list
-                    songList.remove(selectedSong);
+                    songList.remove(lastSelectedSong);
                     songsTable.refresh();
 
                     // 3) Remove from playlist table (if it's there)
-                    playlistSongList.removeIf(s -> s.getId() == selectedSong.getId());
+                    playlistSongList.removeIf(s -> s.getId() == lastSelectedSong.getId());
                     playlistSongsTable.refresh();
 
                     lastSelectedPlaylist.setSongList(playlistSongList);
