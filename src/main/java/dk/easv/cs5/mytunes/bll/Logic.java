@@ -147,7 +147,7 @@ public class Logic implements ILogic {
         if(songId == 0 || playlistId == 0){
             return;
         }
-        playlistDAO.deleteSongFromPlaylist(playlistId, songId);
+        playlistDAO.deleteSongFromPlaylist(songId, playlistId); //this
 
     }
 
