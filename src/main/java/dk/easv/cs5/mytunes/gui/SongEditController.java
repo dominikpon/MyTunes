@@ -7,6 +7,8 @@ import dk.easv.cs5.mytunes.bll.ILogic;
 import dk.easv.cs5.mytunes.bll.Logic;
 import dk.easv.cs5.mytunes.bll.exceptions.LogicException;
 import dk.easv.cs5.mytunes.gui.helpers.AlertHelper;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -39,6 +42,10 @@ public class SongEditController {
         return this.genreList;
     }
 
+    private Song songToEdit;
+    private final BooleanProperty editMode = new SimpleBooleanProperty(false);
+
+
     private ILogic logic = new Logic();
 
     public SongEditController() {
@@ -46,7 +53,7 @@ public class SongEditController {
     }
 
 
-    @FXML private TextField txtTitle;
+    @FXML private TextField txtTitle ;
     @FXML private TextField txtArtist;
     @FXML private ComboBox<Genre> comboGenre;
     @FXML private TextField txtDuration;
@@ -56,10 +63,14 @@ public class SongEditController {
 
 
 
-    @FXML
-    private Button btnSave;
-    @FXML
-    private Button btnCancel;
+    @FXML private Button btnSave;
+
+    public void setSaveButtonLabel(String label){
+        btnSave.setText(label);
+    }
+
+
+    @FXML private Button btnCancel;
 
 
     @FXML
@@ -85,6 +96,7 @@ public class SongEditController {
     }
     @FXML
     private void onSaveButton(ActionEvent actionEvent) throws LogicException {
+
         String title = txtTitle.getText().trim();
         String artist = txtArtist.getText().trim();
         Genre selectedGenre = comboGenre.getSelectionModel().getSelectedItem();
@@ -113,10 +125,11 @@ public class SongEditController {
             AlertHelper.showError("Invalid duration format. Please enter mm:ss or duration in seconds.");
             return;
         }
-        //f
 
         if (selectedGenre.getId() == 0){
             logic.createGenre(selectedGenre);
+
+
 
         }
         System.out.println("Saving song:");
@@ -125,9 +138,34 @@ public class SongEditController {
         System.out.println("Genre: " + selectedGenre.getName() + " id=" + selectedGenre.getId());
         System.out.println("Duration: " + durationInSeconds);
         System.out.println("Path: " + path);
-        Song song = new Song(title, artist, selectedGenre, durationInSeconds, path);
 
+    if(editMode.get()){ // it checks the mode and according that it chooses which if-clause to try
+            Integer id = songToEdit.getId();
+        try {
+                songToEdit.setTitle(title);
+                songToEdit.setArtist(artist);
+                songToEdit.setGenre(selectedGenre);
+                songToEdit.setDuration(durationInSeconds);
+                songToEdit.setFilePath(path);
+                logic.editSong(songToEdit);
+                AlertHelper.showInfo("Song has been edited.");
+            ObservableList<Song> temp = FXCollections.observableArrayList(songList); //create a copy of observable list to refresh it
+            songList.setAll(temp);
+
+
+                txtTitle.clear();
+                txtArtist.clear();
+                comboGenre.getSelectionModel().clearSelection();
+                txtDuration.clear();
+                txtPath.clear();
+
+            }catch (LogicException e){
+                AlertHelper.showError("An error occurred while trying to edit the song.");
+                e.printStackTrace();
+            }
+        }else
             try {
+                Song song = new Song(title, artist, selectedGenre, durationInSeconds, path);
                 logic.createSong(song);
                 songList.add(song);
                 AlertHelper.showInfo("Song was saved!");
@@ -157,14 +195,14 @@ public class SongEditController {
             String baseFolder = "src/main/resources/songs/";
             String relativePath = baseFolder + selectedFile.getName();
             txtPath.setText(relativePath);
-            try{
+            try {
                 Media media = new Media(file.toURI().toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
-                mediaPlayer.setOnReady (() -> {
-                    int durationInSeconds = (int) media.getDuration().toSeconds();      //formatter should be in BLL
+                mediaPlayer.setOnReady(() -> {
+                    int durationInSeconds = (int) media.getDuration().toSeconds();
                     int minutes = durationInSeconds / 60;
-                     int seconds = durationInSeconds - minutes * 60;
-                     String formatedDuration = String.format("%02d:%02d" ,minutes, seconds);
+                    int seconds = durationInSeconds - minutes * 60;
+                    String formatedDuration = String.format("%02d:%02d", minutes, seconds);
 
                     txtDuration.setText(formatedDuration);
                 });
@@ -188,4 +226,20 @@ public class SongEditController {
         stage.setScene(scene);
         stage.show();
     }
-}
+    public void setSongToEdit(Song song) {
+        this.songToEdit = song;
+        if (songToEdit != null) {
+            editMode.setValue(true);
+            txtTitle.setText(songToEdit.getTitle());
+            txtArtist.setText(songToEdit.getArtist());
+            comboGenre.getSelectionModel().select(songToEdit.getGenre());
+            txtDuration.setText(songToEdit.getFormattedDuration());
+            txtPath.setText(songToEdit.getFilePath());
+        }
+        else {
+            editMode.setValue(false);
+    }
+
+
+}}
+

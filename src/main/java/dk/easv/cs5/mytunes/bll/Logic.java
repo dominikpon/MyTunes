@@ -65,7 +65,27 @@ public class Logic implements ILogic {
     }
 
     @Override
-    public void editSong(Song song) {
+    public void editSong(Song song) throws LogicException {
+        if (song.getTitle() == null) {
+            throw new LogicException("Title is empty!");
+        }
+
+        if (song.getArtist() == null) {
+            throw new LogicException("Artist is empty!");
+        }
+
+        if (song.getGenre() == null) {
+            throw new LogicException("Genre is empty!");
+        }
+
+        if(song.getDuration()<=0){
+            throw new LogicException("Duration is empty!");
+        }
+
+        if(song.getFilePath() == null  ){
+            throw new LogicException("File path is empty!");
+        }
+
         songDAO.edit(song);
 
     }

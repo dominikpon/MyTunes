@@ -50,6 +50,24 @@ public class SongDAO implements ISongDAO  {
 
     @Override
     public void edit(Song song) {
+        String sql = "UPDATE Songs Set title = ?, artist = ?, genreId = ?, duration = ?, filePath = ? WHERE id = ?";
+    try(Connection conn = getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+
+        ps.setString(1,song.getTitle());
+        ps.setString(2,song.getArtist());
+        ps.setInt(3, song.getGenre().getId());
+        ps.setInt(4, song.getDuration());
+        ps.setString(5, song.getFilePath());
+        ps.setInt(6, song.getId());
+
+        ps.executeUpdate();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new RuntimeException("Failed to edit song");
+    }
+
 
     }
 

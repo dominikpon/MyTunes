@@ -48,7 +48,7 @@ public class MainController {
     @FXML private TableView<Song> playlistSongsTable;
     @FXML private TableColumn colSongInPlaylist;
 
-    @FXML private Button btnDeleteSongFromPlaylist; //this is only for disabling
+
 
 
     //Observable lists for manual refreshing of Lists
@@ -93,24 +93,9 @@ public class MainController {
 
 
         //Tracking the last selected playlist
-        playlistsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-        {
-            if (newValue != null) {
-                lastSelectedPlaylist = newValue;
-                System.out.println("Selected playlist: " + newValue.getName());
-                loadSongsForPlaylist(newValue.getId());
-            }
-
-        });
+        trackLastSelectedPlaylist();
         //Tracking the last selected song
-        songsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-                {
-                    if (newValue != null) {
-                        lastSelectedSong = newValue;
-                        System.out.println("Selected song: " + newValue);
-                    }
-                }
-        );
+        trackLastSelectedSong();
 
 
 
@@ -126,9 +111,35 @@ public class MainController {
 
     }
 
+    private void trackLastSelectedPlaylist(){
+        playlistsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if (newValue != null) {
+                lastSelectedPlaylist = newValue;
+                System.out.println("Selected playlist: " + newValue.getName());
+                loadSongsForPlaylist(newValue.getId());
+            }
+
+        });
+
+    }
+
+    private void trackLastSelectedSong() {
+        //Tracking the last selected song
+        songsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+                {
+                    if (newValue != null) {
+                        lastSelectedSong = newValue;
+                        System.out.println("Selected song: " + newValue);
+                    }
+                }
+        );
+    }
+
     private void loadSongsForPlaylist(int playlistId){
         try {
             playlistSongList.setAll(logic.getAllSongsInPlaylist(playlistId));
+            playlistSongsTable.refresh();
         } catch (Exception e) {
             e.printStackTrace();
             AlertHelper.showInfo("Could not load songs for playlist " + playlistId + "\n" + e.getMessage());
@@ -163,13 +174,24 @@ public class MainController {
     }
     @FXML
     private void onEditSongButtonAction(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gui/SongEditWindow.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setResizable(false);
-        stage.setTitle("New/Edit Song");
-        stage.setScene(scene);
-        stage.show();
+        if (lastSelectedSong != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gui/SongEditWindow.fxml"));
+            Parent root = fxmlLoader.load();
+            SongEditController controller = fxmlLoader.getController();
+            controller.setSongToEdit(lastSelectedSong);
+            controller.setSongList(songList);
+            controller.setSaveButtonLabel("Edit");
+            //controller.setEditMode(true);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setTitle("New/Edit Song");
+            stage.setScene(scene);
+            stage.show();
+        }
+        else  {
+            AlertHelper.showInfo("Please select a song to edit.");
+        }
 
     }
     @FXML
@@ -302,6 +324,10 @@ public class MainController {
         System.out.println("Added: " + lastSelectedSong.getTitle()+ " to " + lastSelectedPlaylist.getName()); //If I try to add lastSelectedPlaylist.getName() it just shows ID of playlist
     }
 
+
+    public void refreshSongsTable() {
+        songsTable.refresh();
+    }
 
 }
 

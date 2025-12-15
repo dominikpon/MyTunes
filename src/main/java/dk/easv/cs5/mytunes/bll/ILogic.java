@@ -11,7 +11,7 @@ import java.util.List;
 public interface ILogic {
     public void createSong(Song song) throws LogicException;
     public void deleteSong(Song song);
-    public void editSong(Song song);
+    public void editSong(Song song) throws LogicException;
 
     public void createGenre(Genre genre) throws LogicException;
 
