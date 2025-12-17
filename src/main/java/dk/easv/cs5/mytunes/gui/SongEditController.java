@@ -185,7 +185,7 @@ public class SongEditController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose a song file");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Audio Files", "*.mp3","*.wav", "*aac", "*flac"));
+                new FileChooser.ExtensionFilter("Audio Files", "*.mp3","*.wav"));
 
         File file = fileChooser.showOpenDialog(btnChoosePath.getScene().getWindow());
         if (file != null) {

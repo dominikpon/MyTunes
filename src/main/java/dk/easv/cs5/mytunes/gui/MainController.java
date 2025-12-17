@@ -338,25 +338,29 @@ public class MainController {
     }
 
     @FXML
-    private void onUpButtonAction(ActionEvent actionEvent) {
-    int index = playlistSongsTable.getSelectionModel().getSelectedIndex();
-    if (index <= 0) {
-        return;
-    }
-        Collections.swap(playlistSongList,index,index-1);
-        playlistSongsTable.getSelectionModel().select(index -1);
+    private void moveSong(int direction) {
+        int index = playlistSongsTable.getSelectionModel().getSelectedIndex();
 
+        // Check if index is valid and within bounds
+        if (index < 0 || index + direction < 0 || index + direction >= playlistSongList.size()) {
+            return;
+        }
+
+        // Swap the current song with the one above or below
+        Collections.swap(playlistSongList, index, index + direction);
+
+        // Update selection to follow the moved song
+        playlistSongsTable.getSelectionModel().select(index + direction);
+    }
+
+    @FXML
+    private void onUpButtonAction(ActionEvent actionEvent) {
+        moveSong(-1); // Move up
     }
 
     @FXML
     private void onDownButtonAction(ActionEvent actionEvent) {
-        int index = playlistSongsTable.getSelectionModel().getSelectedIndex();
-
-        if (index <= 0) {
-            return;
-    }
-        Collections.swap(playlistSongList,index,index+1);
-        playlistSongsTable.getSelectionModel().select(index + 1);
+        moveSong(1); // Move down
     }
 
 
