@@ -41,6 +41,23 @@ public class PlaylistDAO implements IPlaylistDAO {
 
     @Override
     public void edit(Playlist playlist) {
+        String sql = "UPDATE Playlists SET name=? WHERE id=?";
+
+        try(Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
+
+            ps.setString(1,playlist.getName());
+            ps.setInt(2, playlist.getId());
+
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to edit playlist");
+        }
+
+
 
     }
 
