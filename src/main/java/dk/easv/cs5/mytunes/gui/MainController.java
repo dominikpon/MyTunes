@@ -410,12 +410,25 @@ public class MainController {
     }
     @FXML
     private void onEditButtonPlaylistAction(ActionEvent actionEvent) throws IOException {
+        // get selected playlist
+        Playlist selectedPlaylist = playlistsTable.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist == null) {
+            AlertHelper.showError("Please select a playlist.");
+            return;
+        }
+        // load the edit window
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("gui/PlaylistEditWindow.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Parent root = fxmlLoader.load();
+
+        // give controller the playlist
+        PlaylistEditController controller = fxmlLoader.getController();
+        controller.setPlaylistList(playlistList);
+        controller.setPlaylistToEdit(selectedPlaylist);
+        //shows the window
         Stage stage = new Stage();
         stage.setResizable(false);
-        stage.setTitle("New/Edit Song");
-        stage.setScene(scene);
+        stage.setTitle("New/Edit Playlist");
+        stage.setScene(new Scene(root));
         stage.show();
     }
     @FXML
