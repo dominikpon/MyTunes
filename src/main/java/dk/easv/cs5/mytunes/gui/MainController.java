@@ -350,7 +350,13 @@ public class MainController {
 
     @FXML
     private void onDownButtonAction(ActionEvent actionEvent) {
+        int index = playlistSongsTable.getSelectionModel().getSelectedIndex();
 
+        if (index <= 0) {
+            return;
+    }
+        Collections.swap(playlistSongList,index,index+1);
+        playlistSongsTable.getSelectionModel().select(index + 1);
     }
 
 
