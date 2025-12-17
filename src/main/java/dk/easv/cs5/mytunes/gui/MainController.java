@@ -99,7 +99,7 @@ public class MainController {
         //Tracking the last selected playlist
         trackLastSelectedPlaylist();
         //Tracking the last selected song
-        trackLastSelectedSong();
+        trackSongSelection();
 
 
 
@@ -130,16 +130,26 @@ public class MainController {
 
     }
 
-    private void trackLastSelectedSong() {
-        //Tracking the last selected song
+    private void trackSongSelection() {
+        //Tracking the last selected song firstly in Song table
         songsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
                 {
                     if (newValue != null) {
+                        playlistSongsTable.getSelectionModel().clearSelection();
                         lastSelectedSong = newValue;
                         System.out.println("Selected song: " + newValue);
                     }
                 }
         );
+        //Tracking the last selected song in Song table in playlist
+        playlistSongsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
+        {
+            if (newValue != null) {
+                songsTable.getSelectionModel().clearSelection();
+                lastSelectedSong = newValue;
+                System.out.println("Selected song: " + newValue);
+            }
+        });
     }
 
     private void loadSongsForPlaylist(int playlistId){
@@ -188,17 +198,12 @@ public class MainController {
 
     @FXML
     private void onPlayPauseButtonAction(ActionEvent actionEvent) {
-        Song selectedSong = songsTable.getSelectionModel().getSelectedItem();
 
-        if (selectedSong == null) {
-            selectedSong = playlistSongsTable.getSelectionModel().getSelectedItem();
-        }
-        if (selectedSong == null) {
+        if (lastSelectedSong == null) {
             AlertHelper.showInfo("Please select a song to play");
-            return;
         }
 
-        handlePlayPause(selectedSong);
+        handlePlayPause(lastSelectedSong);
     }
     @FXML
     private void onNextSongButtonAction(ActionEvent actionEvent) {
