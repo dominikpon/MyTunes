@@ -24,9 +24,24 @@ public class PlaylistEditController {
 
     private ObservableList<Playlist> playlistList = FXCollections.observableArrayList();
 
+    private Playlist playlistToEdit = null;
+    private boolean editMode = false;
+
     public void setPlaylistList(ObservableList<Playlist> playlistList) {
         this.playlistList = playlistList;
     }
+
+    public void setPlaylistToEdit(Playlist playlist) {
+        this.playlistToEdit = playlist;
+        if (playlist != null) {
+            editMode = true;
+            txtName.setText(playlistToEdit.getName());
+        } else  {
+            editMode = false;
+            txtName.setText("");
+        }
+    }
+
 
     ILogic logic = new Logic();
 
@@ -57,12 +72,24 @@ public class PlaylistEditController {
 
 
         try {
+            if(editMode) {
+                // edit existing playlist
+            playlistToEdit.setName(name);
+            logic.editPlaylist(playlistToEdit);
+            AlertHelper.showInfo("Playlist Updated");
+
+            }
+            else {
+                // create new playlist
             Playlist playlist = new Playlist(name);
             logic.createPlaylist(playlist);
             playlistList.add(playlist);
             AlertHelper.showInfo("Playlist Created");
+            }
 
-            txtName.clear();
+            //close window after saving
+            Stage stage = (Stage) btnSave.getScene().getWindow();
+            stage.close();
 
         }catch (Exception e){
             AlertHelper.showError("Error");
