@@ -28,11 +28,6 @@ import java.util.Collections;
 
 public class MainController {
 
-
-
-    //Buttons
-
-
     //Table with songs
 
     @FXML private TableView<Song> songsTable; //<Song> to know that Table will consist of songs
@@ -51,7 +46,8 @@ public class MainController {
     @FXML private TableView<Song> playlistSongsTable;
     @FXML private TableColumn colSongInPlaylist;
 
-
+    @FXML private TextField filterField;
+    @FXML private Button searchButton;
 
 
     //Observable lists for manual refreshing of Lists
@@ -67,6 +63,7 @@ public class MainController {
 
     private MediaPlayer mp;
     private Song currentlyPlayingSong;
+
     @FXML
     private void initialize() throws LogicException {
 
@@ -108,10 +105,6 @@ public class MainController {
         //Load playlists from database
         playlistList.setAll(logic.getAllPlaylists());
         //Load songs in playlist from database
-
-
-
-
 
     }
 
@@ -179,8 +172,40 @@ public class MainController {
             stage.setScene(scene);
             stage.show();
         }
-    @FXML
+
+    private boolean isFiltered;
+
+    private void clearFilter() {
+        songsTable.setItems(songList);
+        filterField.clear();
+        searchButton.setText("Filter");
+        isFiltered = false;
+    }
+
+        @FXML
     private void onSearchButtonAction(ActionEvent actionEvent) {
+
+        if (isFiltered) {
+            clearFilter();
+            return;
+        }
+
+            String search = filterField.getText().toLowerCase().trim();
+                if(search.isEmpty()){
+                    songsTable.setItems(songList);
+                    return;
+                }
+               ObservableList<Song> filtered = FXCollections.observableArrayList();
+
+                for(Song s : songList) {
+                    if (s.getTitle().toLowerCase().contains(search) || (s.getArtist().toLowerCase().contains(search))){
+                        filtered.add(s);
+                    }
+                songsTable.setItems(filtered);
+                    searchButton.setText("Clear");
+                    isFiltered = true;
+            }
+
     }
     @FXML
     private void onPreviousSongButtonAction(ActionEvent actionEvent) {
