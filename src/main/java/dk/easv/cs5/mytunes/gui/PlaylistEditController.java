@@ -1,6 +1,7 @@
 package dk.easv.cs5.mytunes.gui;
 
 import dk.easv.cs5.mytunes.be.Playlist;
+import dk.easv.cs5.mytunes.be.Song;
 import dk.easv.cs5.mytunes.bll.ILogic;
 import dk.easv.cs5.mytunes.bll.Logic;
 import dk.easv.cs5.mytunes.gui.helpers.AlertHelper;
@@ -77,6 +78,8 @@ public class PlaylistEditController {
             playlistToEdit.setName(name);
             logic.editPlaylist(playlistToEdit);
             AlertHelper.showInfo("Playlist Updated");
+                ObservableList<Playlist> temp = FXCollections.observableArrayList(playlistList); //create a copy of observable list to refresh it
+                playlistList.setAll(temp);
 
             }
             else {
