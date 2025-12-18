@@ -50,12 +50,12 @@
                     </opaqueInsets></Pane>
                 <Pane prefHeight="63.0" prefWidth="182.0" style="-fx-background-color: #DBE9F4;">
                     <children>
-                        <Label alignment="TOP_CENTER" layoutX="38.0" layoutY="6.0" text="Currently playing:">
+                        <Label alignment="TOP_CENTER" layoutX="36.0" layoutY="10.0" text="Currently playing:">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <Label fx:id="lblCurrentSong" alignment="CENTER" layoutX="48.0" layoutY="23.0" text="-placeholder-">
+                        <Label fx:id="lblCurrentSong" alignment="CENTER" layoutX="36.0" layoutY="29.0" text="-" textAlignment="CENTER">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
@@ -158,7 +158,7 @@
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Button>
-                                <Pane prefHeight="35.0" prefWidth="98.0" />
+                                <Pane prefHeight="35.0" prefWidth="101.0" />
                                 <Button fx:id="btnDeleteSongFromPlaylist" mnemonicParsing="false" onAction="#onDeleteSongFromPlaylistAction" prefHeight="26.0" prefWidth="65.0" text="Delete" HBox.hgrow="NEVER">
                                     <font>
                                         <Font name="System Bold" size="13.0" />

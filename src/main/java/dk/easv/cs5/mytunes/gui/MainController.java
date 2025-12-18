@@ -49,6 +49,8 @@ public class MainController {
     @FXML private TextField filterField;
     @FXML private Button searchButton;
 
+    //Text for the currently playing song
+    @FXML private Label lblCurrentSong;
 
     //Observable lists for manual refreshing of Lists
     private ObservableList<Song> songList = FXCollections.observableArrayList();
@@ -270,6 +272,8 @@ public class MainController {
             mp.play();
 
             currentlyPlayingSong = song;
+            lblCurrentSong.setText(song.getTitle());
+
         } catch (Exception e) {
             e.printStackTrace();
             AlertHelper.showError("Could not play song " + song.getTitle() + "\n" + e.getMessage());
