@@ -339,15 +339,20 @@ public class MainController {
             return;
         }
 
-        currentPlayIndex++;
+        //try to find the index of playing song dynamically
+        int currentPlayIndex = currentPlayQueue.indexOf(currentlyPlayingSong);
 
-        // Stop when we reach the end
-        if (currentPlayIndex >= currentPlayQueue.size()) {
-            currentPlayIndex = -1;
+        // if song is removed or not in the playlist anymore
+        if ( currentPlayIndex == -1){
             return;
         }
 
-        Song nextSong = currentPlayQueue.get(currentPlayIndex);
+        int nextIndex = currentPlayIndex + 1;
+        //stop at the end of loop
+        if (nextIndex >= currentPlayQueue.size()) {
+            return;
+        }
+        Song nextSong = currentPlayQueue.get(nextIndex);
 
         // Update UI selection
         if (currentPlayQueue == playlistSongList) {
