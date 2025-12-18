@@ -69,6 +69,8 @@ public class MainController {
 
     private MediaPlayer mp;
     private Song currentlyPlayingSong;
+    private ObservableList<Song> currentPlayQueue;
+    private int currentPlayIndex;
 
     @FXML
     private void initialize() throws LogicException {
@@ -249,10 +251,21 @@ public class MainController {
 
         if (lastSelectedSong == null) {
             AlertHelper.showInfo("Please select a song to play");
+            return;
         }
+
+        // Decide which list we are playing from
+        if (playlistSongsTable.getSelectionModel().getSelectedItem() != null) {
+            currentPlayQueue = playlistSongList;
+        } else {
+            currentPlayQueue = songsTable.getItems();
+        }
+
+        currentPlayIndex = currentPlayQueue.indexOf(lastSelectedSong);
 
         handlePlayPause(lastSelectedSong);
     }
+
     @FXML
     private void onNextSongButtonAction(ActionEvent actionEvent) {
         if (mp == null) return;
@@ -291,6 +304,7 @@ public class MainController {
             Media media = new Media(file.toURI().toString());
             mp = new MediaPlayer(media);
             mp.setVolume(volumeSlider.getValue());
+            mp.setOnEndOfMedia(this::playNextSong);
             mp.play();
 
             timeSlider.setDisable(false);
@@ -318,6 +332,34 @@ public class MainController {
             AlertHelper.showError("Could not play song " + song.getTitle() + "\n" + e.getMessage());
         }
     }
+
+    private void playNextSong() {
+
+        if (currentPlayQueue == null || currentPlayQueue.isEmpty()) {
+            return;
+        }
+
+        currentPlayIndex++;
+
+        // Stop when we reach the end
+        if (currentPlayIndex >= currentPlayQueue.size()) {
+            currentPlayIndex = -1;
+            return;
+        }
+
+        Song nextSong = currentPlayQueue.get(currentPlayIndex);
+
+        // Update UI selection
+        if (currentPlayQueue == playlistSongList) {
+            playlistSongsTable.getSelectionModel().select(nextSong);
+        } else {
+            songsTable.getSelectionModel().select(nextSong);
+        }
+
+        playSong(nextSong);
+    }
+
+
     @FXML
     private void onEditSongButtonAction(ActionEvent actionEvent) throws IOException {
         if (lastSelectedSong != null) {
