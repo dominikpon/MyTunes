@@ -52,6 +52,9 @@ public class MainController {
     //Text for the currently playing song
     @FXML private Label lblCurrentSong;
 
+    //Volume slider
+    @FXML private Slider volumeSlider;
+
     //Observable lists for manual refreshing of Lists
     private ObservableList<Song> songList = FXCollections.observableArrayList();
     private ObservableList<Playlist> playlistList = FXCollections.observableArrayList();
@@ -107,6 +110,15 @@ public class MainController {
         //Load playlists from database
         playlistList.setAll(logic.getAllPlaylists());
         //Load songs in playlist from database
+
+        //Setting the initial volume value to 50% of the bar
+        volumeSlider.setValue(0.5);
+
+        volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (mp != null) {
+                mp.setVolume(newVal.doubleValue());
+            }
+        });
 
     }
 
@@ -269,6 +281,7 @@ public class MainController {
             File file = new File(song.getFilePath());
             Media media = new Media(file.toURI().toString());
             mp = new MediaPlayer(media);
+            mp.setVolume(volumeSlider.getValue());
             mp.play();
 
             currentlyPlayingSong = song;
